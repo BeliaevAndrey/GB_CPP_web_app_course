@@ -14,6 +14,8 @@
 
 int main()
 {
+    std::cout << "\nMATCHES GAME\n" << std::endl;
+
     Game* game;
 
     int humans(0);
@@ -24,9 +26,13 @@ int main()
     std::cout << "Input total amount of players: ";
     std::cin >> total;
 
-    if(total < humans) total = humans;
-    
-    if(humans == 0)
+    if (total < humans) total = humans;
+    else if (total + humans == 0) {
+        std::cout << "Exiting..." << std::endl;
+        exit(0);
+    }
+
+    if (humans == 0)
         game = new Game(total);
     else
         game = new Game(total, humans);
@@ -34,6 +40,7 @@ int main()
     game->play();
 
 
+    std::cout << "\nGame finished.\n" << std::endl;
     delete game;
     return 0;
 }

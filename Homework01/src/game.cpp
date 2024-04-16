@@ -1,22 +1,27 @@
 #include "game.h"
 
-
-Game::Game(int playersAmt, int humans)
+/**
+ * @brief Кнструктор игры с участием пользователя
+ * 
+ * @param playersAmt  -- общее количество игроков
+ * @param users       -- количество игроков-пользоавтелей
+ */
+Game::Game(int playersAmt, int users)
 {
     this->playersAmt = playersAmt;
     this->matchBox = new MatchBox(playersAmt * 20);
     this->dice = new Dice;
-    this->humansAmt = humans;
+    this->usersAmt = users;
     players = new Player * [playersAmt];
 
-    for (int i = 0; i < humans; i++)
+    for (int i = 0; i < users; i++)
     {
         std::string name;
         askName(name);
         players[i] = new Player(name);
     }
 
-    for (int i = humans; i < playersAmt; i++)
+    for (int i = users; i < playersAmt; i++)
     {
         players[i] = new Player(i + 1);
     }
@@ -26,6 +31,11 @@ Game::Game(int playersAmt, int humans)
     }
 
 }
+/**
+ * @brief Конструктор игры без участия пользователя
+ * 
+ * @param playersAmt -- общее количество игроков
+ */
 Game::Game(int playersAmt)
 {
     this->playersAmt = playersAmt;
@@ -51,9 +61,9 @@ Game::~Game() {
     delete players;
 }
 
+/* смешать последовательность игроков */
 void Game::mixPlayers()
 {
-
     for (int i = 0; i < playersAmt; i++)
     {
         Player* tmp = players[i];
@@ -61,14 +71,18 @@ void Game::mixPlayers()
         players[i] = players[k];
         players[k] = tmp;
     }
-
 }
 
+/* Ввод имени пользователя */
 void Game::askName(std::string& name) {
     std::cout << "Input player name: ";
     std::cin >> name;
 }
 
+/**
+ * @brief Общий ход игры
+ *  
+ */
 void Game::play()
 {
     bool runFlag = true;
@@ -93,10 +107,15 @@ void Game::play()
     std::cout << players[winner]->getName() << " wins!" << std::endl;
 }
 
+/**
+ * @brief ход игрока
+ * 
+ * @param player -- ссылка на участника
+ */
 void Game::move(Player* player) {
     int count(0);
 
-    if (player->isHuman()) player->matchesAmt(count);
+    if (player->isUser()) player->matchesAmt(count);
     else player->matchesAmt(dice, count);
 
     std::cout << player->getName() << " pulls "

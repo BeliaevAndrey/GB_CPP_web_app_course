@@ -4,8 +4,8 @@
 #include "match.h"
 
 /**
- * @brief Коробка спичек:
- * из неё спички тянут
+ * @brief Коробка спичек;
+ *
  */
 class MatchBox
 {

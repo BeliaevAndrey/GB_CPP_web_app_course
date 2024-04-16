@@ -7,12 +7,14 @@
 
 /**
  * @brief Игрок;
- * он бросает кость и тянет спички из коробки
+ * бросает кость (автоматический игрок);
+ * запрашивает количество спичек (игрок пользователь);
+ * тянет спички из коробки 
  */
 class Player
 {
 private:
-    bool human = false;
+    bool user = false;
     std::string* name;
     int pID;
     bool inGame = true;
@@ -27,7 +29,7 @@ public:
 
     void setInGame(bool);
 
-    bool isHuman();
+    bool isUser();
 
 
 
