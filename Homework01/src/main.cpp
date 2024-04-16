@@ -18,24 +18,24 @@ int main()
 
     Game* game;
 
-    int humans(0);
+    int users(0);
     int total(0);
 
     std::cout << "Input amount of human-players: ";
-    std::cin >> humans;
+    std::cin >> users;
     std::cout << "Input total amount of players: ";
     std::cin >> total;
 
-    if (total < humans) total = humans;
-    else if (total + humans == 0) {
+    if (total < users) total = users;
+    else if (total + users == 0) {
         std::cout << "Exiting..." << std::endl;
         exit(0);
     }
 
-    if (humans == 0)
+    if (users == 0)
         game = new Game(total);
     else
-        game = new Game(total, humans);
+        game = new Game(total, users);
 
     game->play();
 
