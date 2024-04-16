@@ -14,11 +14,26 @@
 
 int main()
 {
-    Game* game = new Game(5);
+    Game* game;
+
+    int humans(0);
+    int total(0);
+
+    std::cout << "Input amount of human-players: ";
+    std::cin >> humans;
+    std::cout << "Input total amount of players: ";
+    std::cin >> total;
+
+    if(total < humans) total = humans;
+    
+    if(humans == 0)
+        game = new Game(total);
+    else
+        game = new Game(total, humans);
 
     game->play();
 
-    
+
     delete game;
     return 0;
 }

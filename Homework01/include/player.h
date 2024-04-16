@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
 #include "dice.h"
 
@@ -11,21 +12,27 @@
 class Player
 {
 private:
-    bool isHuman = false;
+    bool human = false;
     std::string* name;
     int pID;
     bool inGame = true;
 public:
     Player(int);
-    Player(int, std::string);
+    Player(std::string);
     ~Player();
-
-    int throwDice(Dice*);
 
     std::string getName();
 
     bool isInGame();
 
     void setInGame(bool);
+
+    bool isHuman();
+
+
+
+    void matchesAmt(Dice*, int&);
+
+    void matchesAmt(int&);
 
 };

@@ -20,3 +20,5 @@ add_executable(${PROJECT_NAME}
     ${LOCAL_INCLUDE}/player.h
     ${LOCAL_INCLUDE}/game.h
     )
+
+install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/out)

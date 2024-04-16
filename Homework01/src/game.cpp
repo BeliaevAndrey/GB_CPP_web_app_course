@@ -1,6 +1,31 @@
 #include "game.h"
 
 
+Game::Game(int playersAmt, int humans)
+{
+    this->playersAmt = playersAmt;
+    this->matchBox = new MatchBox(playersAmt * 20);
+    this->dice = new Dice;
+    this->humansAmt = humans;
+    players = new Player * [playersAmt];
+
+    for (int i = 0; i < humans; i++)
+    {
+        std::string name;
+        askName(name);
+        players[i] = new Player(name);
+    }
+
+    for (int i = humans; i < playersAmt; i++)
+    {
+        players[i] = new Player(i + 1);
+    }
+
+    if (playersAmt > 2) {
+        mixPlayers();
+    }
+
+}
 Game::Game(int playersAmt)
 {
     this->playersAmt = playersAmt;
@@ -13,6 +38,9 @@ Game::Game(int playersAmt)
         players[i] = new Player(i + 1);
     }
 
+    if (playersAmt > 2) {
+        mixPlayers();
+    }
 }
 Game::~Game() {
     delete matchBox;
@@ -23,26 +51,42 @@ Game::~Game() {
     delete players;
 }
 
+void Game::mixPlayers()
+{
+
+    for (int i = 0; i < playersAmt; i++)
+    {
+        Player* tmp = players[i];
+        int k = rand() % playersAmt;
+        players[i] = players[k];
+        players[k] = tmp;
+    }
+
+}
+
+void Game::askName(std::string& name) {
+    std::cout << "Input player name: ";
+    std::cin >> name;
+}
+
 void Game::play()
 {
+    bool runFlag = true;
     int winner;
-    while (playersAmt - playersOut > 1)
+    while (runFlag)
     {
         for (int i = 0; i < playersAmt; i++)
         {
             if (players[i]->isInGame())
             {
                 winner = i;
+                if (playersAmt - playersOut == 1)
+                {
+                    runFlag = false;
+                    break;
+                }
+
                 move(players[i]);
-                // int count = players[i]->throwDice();
-                // players[i]->setInGame(matchBox->pullMatch(count));
-                // if (!players[i]->isInGame()) {
-                //     playersOut++;
-                //     std::cout << players[i]->getName()
-                //         << " is out of game. Players left: "
-                //         << playersAmt - playersOut
-                //         << std::endl;
-                // }
             }
         }
     }
@@ -50,12 +94,17 @@ void Game::play()
 }
 
 void Game::move(Player* player) {
+    int count(0);
 
-    int count = player->throwDice(dice);
+    if (player->isHuman()) player->matchesAmt(count);
+    else player->matchesAmt(dice, count);
+
     std::cout << player->getName() << " pulls "
         << count << " of matches."
         << std::endl;
+
     player->setInGame(matchBox->pullMatch(count));
+
     if (!player->isInGame()) {
         playersOut++;
         std::cout << player->getName()
