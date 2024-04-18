@@ -2,7 +2,7 @@
 
 /**
  * @brief Кнструктор игры с участием пользователя
- * 
+ *
  * @param playersAmt  -- общее количество игроков
  * @param users       -- количество игроков-пользоавтелей
  */
@@ -33,7 +33,7 @@ Game::Game(int playersAmt, int users)
 }
 /**
  * @brief Конструктор игры без участия пользователя
- * 
+ *
  * @param playersAmt -- общее количество игроков
  */
 Game::Game(int playersAmt)
@@ -42,6 +42,8 @@ Game::Game(int playersAmt)
     this->matchBox = new MatchBox(playersAmt * 20);
     this->dice = new Dice;
     players = new Player * [playersAmt];
+
+    srand(time(nullptr));
 
     for (int i = 0; i < playersAmt; i++)
     {
@@ -81,7 +83,7 @@ void Game::askName(std::string& name) {
 
 /**
  * @brief Общий ход игры
- *  
+ *
  */
 void Game::play()
 {
@@ -109,7 +111,7 @@ void Game::play()
 
 /**
  * @brief ход игрока
- * 
+ *
  * @param player -- ссылка на участника
  */
 void Game::move(Player* player) {
@@ -130,5 +132,12 @@ void Game::move(Player* player) {
             << " is out of game. Players left: "
             << playersAmt - playersOut
             << std::endl;
+        refillMatchBox();
     }
+}
+
+void Game::refillMatchBox()
+{
+    delete matchBox;
+    this->matchBox = new MatchBox(playersAmt * 20);
 }

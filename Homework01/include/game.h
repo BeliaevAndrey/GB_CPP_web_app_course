@@ -21,6 +21,7 @@ private:
     void askName(std::string&);
     void move(Player*);
     void mixPlayers();
+    void refillMatchBox();
 
 public:
     Game(int);
