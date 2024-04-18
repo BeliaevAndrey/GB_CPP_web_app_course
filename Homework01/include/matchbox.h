@@ -18,5 +18,4 @@ public:
     ~MatchBox();
 
     bool pullMatch(int);
-
 };

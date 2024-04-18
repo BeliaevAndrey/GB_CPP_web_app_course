@@ -96,6 +96,7 @@ void Game::play()
             if (players[i]->isInGame())
             {
                 winner = i;
+
                 if (playersAmt - playersOut == 1)
                 {
                     runFlag = false;
@@ -129,15 +130,16 @@ void Game::move(Player* player) {
     if (!player->isInGame()) {
         playersOut++;
         std::cout << player->getName()
-            << " is out of game. Players left: "
+            << " is out of game.\n\nPlayers left: "
             << playersAmt - playersOut
             << std::endl;
-        refillMatchBox();
+        if (playersAmt - playersOut > 1)
+            refillMatchBox();
     }
 }
 
 void Game::refillMatchBox()
 {
     delete matchBox;
-    this->matchBox = new MatchBox(playersAmt * 20);
+    matchBox = new MatchBox(playersAmt * 10);
 }

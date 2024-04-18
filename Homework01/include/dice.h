@@ -9,8 +9,6 @@
  */
 class Dice
 {
-private:
-    int previous;   // предыдущее значение зерна для rand()
 public:
     
     int toss();     // бросить кость

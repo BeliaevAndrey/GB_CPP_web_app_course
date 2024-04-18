@@ -3,6 +3,7 @@
 
 MatchBox::MatchBox(int inAmt)
 {
+    current = 0;
     amount = int(inAmt);
     matches = new Match * [amount];
     for (int i = 0; i < amount; i++)
