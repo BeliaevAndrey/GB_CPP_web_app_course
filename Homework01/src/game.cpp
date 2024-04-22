@@ -55,6 +55,7 @@ Game::Game(int playersAmt)
     }
 }
 Game::~Game() {
+    delete dice;
     delete matchBox;
     for (int i = 0; i < playersAmt; i++)
     {
