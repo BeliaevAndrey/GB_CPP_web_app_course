@@ -4,7 +4,6 @@ project(tic_tac_toe_client CXX)
 set(INC ${CMAKE_SOURCE_DIR}/client/include)
 set(SRC ${CMAKE_SOURCE_DIR}/client/src)
 
-# add_subdirectory(src)
 SET(NTTC_SRC
     ${SRC}/client.cpp
     ${SRC}/gamemanager.cpp
