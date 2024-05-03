@@ -10,15 +10,50 @@
 #include "consoleplayer.h"
 #include "consolegame.h"
 
+void GameManager::readInt(int& param,
+    std::string paramName = "param") const
+{
+    while (true) {
+        std::cout << "Input " << paramName << ": ";
+        std::cin >> param;
+        if (param > 0 && param )
+    }
+}
+
 //============================================
 IGame* GameManager::createGame(const std::string& name) const
 {
+    int boardSize, winCondition;
+    readInt(boardSize, "board size");
+    readInt(winCondition, "win condition (amt of marks inline)");
+    if (winCondition > boardSize) winCondition = boardSize;
+
     IGame* game = nullptr;
     if (name == "console_game")
     {
-        IBoard* board = new SimpleBoard<5>();
-        game = static_cast<IGame*>(new ConsoleGame("console_game", board, 3));
+        IBoard* board = new SimpleBoard(boardSize);
+        game = static_cast<IGame*>(new ConsoleGame
+        ("console_game", board, winCondition)); // winCondition added
     }
 
     return game;
 }
+
+
+// additions
+
+// int GameManager::readBoardSize() {
+//     int bSize;
+//     std::cout << "Input board size: ";
+//     std::cin >> bSize;
+//     return bSize;
+// }
+//
+// int GameManager::readWinConditions() {
+//     int marksInline;
+//     std::cout 
+//     << "Input how many marks should be inline for win: ";
+//     std::cin >> marksInline;
+//     return marksInline;
+// }
+
