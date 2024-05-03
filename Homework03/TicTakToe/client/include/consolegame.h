@@ -15,7 +15,7 @@ class ConsoleGame : public IGame
 {
     public:
         ConsoleGame() = default;
-        ConsoleGame(const std::string& name, IBoard* board /*other parameters*/);
+        ConsoleGame(const std::string& name, IBoard* board, int marksInRow);
         ~ConsoleGame() = default;
 
         virtual std::string name() const override {return m_name;}
@@ -31,6 +31,7 @@ class ConsoleGame : public IGame
         std::string m_name;
         std::unique_ptr<IBoard> m_board;
         std::vector<std::unique_ptr<IPlayer>> m_players;
+        int marksInRow;
 };
 
 #endif // CONSOLEGAME_H
