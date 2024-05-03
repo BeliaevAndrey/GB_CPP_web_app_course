@@ -14,9 +14,15 @@ void GameManager::readInt(int& param,
     std::string paramName = "param") const
 {
     while (true) {
+        std::string tmp;
         std::cout << "Input " << paramName << ": ";
-        std::cin >> param;
-        // if (param > 0 && param ) // todo: fix it
+        std::cin >> tmp;
+        for (int i=0; i < tmp.size(); i++)
+            if (tmp[i] > '0' && tmp[i] <= '9')
+            {
+                param = std::stoi(tmp);
+                return;
+            }
     }
 }
 
