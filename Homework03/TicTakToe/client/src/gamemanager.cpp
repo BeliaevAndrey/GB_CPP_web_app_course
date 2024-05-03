@@ -16,7 +16,7 @@ void GameManager::readInt(int& param,
     while (true) {
         std::cout << "Input " << paramName << ": ";
         std::cin >> param;
-        if (param > 0 && param )
+        // if (param > 0 && param ) // todo: fix it
     }
 }
 
