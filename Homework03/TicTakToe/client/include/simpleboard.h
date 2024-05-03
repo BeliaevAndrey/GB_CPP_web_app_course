@@ -17,7 +17,7 @@ class SimpleBoard : public IBoard
         SimpleBoard() = default;
         ~SimpleBoard() = default;
 
-        virtual std::pair<PositionType, PositionType> dimention() const override
+        virtual std::pair<PositionType, PositionType> dimension() const override
         {
             return std::make_pair(PositionType{}, m_size);
         }

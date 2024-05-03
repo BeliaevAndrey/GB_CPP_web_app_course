@@ -14,10 +14,10 @@
 IGame* GameManager::createGame(const std::string& name) const
 {
     IGame* game = nullptr;
-    if(name == "console_game")
+    if (name == "console_game")
     {
         IBoard* board = new SimpleBoard<5>();
-        game = static_cast<IGame*>(new ConsoleGame("console_game", board));
+        game = static_cast<IGame*>(new ConsoleGame("console_game", board, 3));
     }
 
     return game;
