@@ -18,9 +18,8 @@ public:
     IGame* createGame(const std::string & name) const;
 
     // additions
-    void readInt(int& , std::string) const;
-    // int readBoardSize();
-    // int readWinConditions();
+    void readInt(unsigned int& , std::string) const;
+    
 };
 
 #endif // GAMEMANAGER_H

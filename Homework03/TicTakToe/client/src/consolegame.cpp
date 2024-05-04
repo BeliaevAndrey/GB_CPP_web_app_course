@@ -80,7 +80,7 @@ int  ConsoleGame::calculateVictory()
     int count_x = 0;           // marks 'x' counter
     int count_o = 0;           // marks 'o' counter
 
-    IBoard::PositionType pos; // position var
+    IBoard::PositionType pos; // position variable
 
     // check rows win condition
     for (auto i = ymin; i < ymax; i++)
@@ -90,8 +90,7 @@ int  ConsoleGame::calculateVictory()
         {
             pos.x = j;      // set position -- column
             auto mark = m_board->mark(pos); // get a mark from position
-            switch (mark)
-            {
+            switch (mark) {
             case IBoard::MARK_X:
             {
                 count_x++;
@@ -99,6 +98,7 @@ int  ConsoleGame::calculateVictory()
                 if (count_x == marksInRow) return true;
                 break;
             }
+
             case IBoard::MARK_O:
             {
                 count_o++;
@@ -106,11 +106,13 @@ int  ConsoleGame::calculateVictory()
                 if (count_o == marksInRow) return true;
                 break;
             }
+
             case IBoard::MARK_EMPTY:
             {
                 count_x = 0;
                 count_o = 0;
             }
+
             default: break;
             }
         }
@@ -128,8 +130,7 @@ int  ConsoleGame::calculateVictory()
         {
             pos.y = j;      // set position -- column
             auto mark = m_board->mark(pos); // get a mark from position
-            switch (mark)
-            {
+            switch (mark) {
             case IBoard::MARK_X:
             {
                 count_x++;
@@ -137,6 +138,7 @@ int  ConsoleGame::calculateVictory()
                 if (count_x == marksInRow) return true;
                 break;
             }
+
             case IBoard::MARK_O:
             {
                 count_o++;
@@ -144,11 +146,13 @@ int  ConsoleGame::calculateVictory()
                 if (count_o == marksInRow) return true;
                 break;
             }
+
             case IBoard::MARK_EMPTY:
             {
                 count_x = 0;
                 count_o = 0;
             }
+
             default: break;
             }
         }
@@ -162,8 +166,7 @@ int  ConsoleGame::calculateVictory()
         pos.x = i;
         pos.y = i;
         auto mark = m_board->mark(pos);
-        switch (mark)
-        {
+        switch (mark) {
         case IBoard::MARK_X:
         {
             count_x++;
@@ -171,6 +174,7 @@ int  ConsoleGame::calculateVictory()
             if (count_x == marksInRow) return true;
             break;
         }
+
         case IBoard::MARK_O:
         {
             count_o++;
@@ -178,11 +182,13 @@ int  ConsoleGame::calculateVictory()
             if (count_o == marksInRow) return true;
             break;
         }
+
         case IBoard::MARK_EMPTY:
         {
             count_x = 0;
             count_o = 0;
         }
+
         default: break;
         }
     }
@@ -193,8 +199,7 @@ int  ConsoleGame::calculateVictory()
         pos.x = xmax - i - 1;
         pos.y = i;
         auto mark = m_board->mark(pos);
-        switch (mark)
-        {
+        switch (mark) {
         case IBoard::MARK_X:
         {
             count_x++;
@@ -209,6 +214,13 @@ int  ConsoleGame::calculateVictory()
             if (count_o == marksInRow) return true;
             break;
         }
+
+        case IBoard::MARK_EMPTY:
+        {
+            count_x = 0;
+            count_o = 0;
+        }
+
         default: break;
         }
     }
@@ -229,10 +241,17 @@ int  ConsoleGame::exec(/*add parameters*/)
         bool moveAccepted = false;
         while (!moveAccepted)
         {
+
             auto move = player->getMove();
 
-            if (!move)
-                return -1;
+            if (!move) return -1;
+
+            // check coordinates are inside board
+            if (move.value().x < m_board->dimension().first.x ||
+                move.value().y < m_board->dimension().first.y ||
+                move.value().x >= m_board->dimension().second.x ||
+                move.value().y >= m_board->dimension().second.y)
+                continue;
 
             auto currentMark = m_board->mark(move.value());
 
@@ -248,7 +267,7 @@ int  ConsoleGame::exec(/*add parameters*/)
             std::cout << "player "
                 << std::to_string(iplayer + 1) << " -- "
                 << m_players[iplayer]->name()
-                << " wins! Congratulations!"
+                << " -- wins! Congratulations!"
                 << std::endl;
 
             return iplayer;

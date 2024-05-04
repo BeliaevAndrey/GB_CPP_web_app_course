@@ -5,7 +5,6 @@
 #include <utility>
 #include <exception>
 #include <stdexcept>
-#include <iostream> // todo: remove later
 
 #include "board.h"
 
@@ -16,9 +15,8 @@ class SimpleBoard : public IBoard
 {
 public:
     // SimpleBoard() = default;
-    SimpleBoard(int bSize) : N(bSize)
+    SimpleBoard(const int bSize) : N((std::size_t)bSize)
     {
-        std::cout << "Creating board\n";
         m_marks = new Mark * [N];
         for (int i = 0; i < N; i++)
         {
@@ -29,8 +27,10 @@ public:
             }
 
         }
-        // m_marks[N][N] = { IBoard::MARK_EMPTY };
     };
+    SimpleBoard& operator=(const SimpleBoard& other) = delete;
+    SimpleBoard(const SimpleBoard& other) = delete;
+    SimpleBoard(SimpleBoard& other) = delete;
     ~SimpleBoard() = default;
 
     virtual std::pair<PositionType, PositionType> dimension() const override
@@ -58,7 +58,8 @@ public:
 
 private:
     const std::size_t N;
-    PositionType m_size = { N,N };
+    PositionType m_size = { static_cast<unsigned int>(N),
+                            static_cast<unsigned int>(N) };
     // Mark m_marks[N][N] = { IBoard::MARK_EMPTY };
     Mark** m_marks = nullptr;
 };

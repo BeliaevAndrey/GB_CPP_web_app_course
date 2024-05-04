@@ -10,28 +10,13 @@
 #include "consoleplayer.h"
 #include "consolegame.h"
 
-void GameManager::readInt(int& param,
-    std::string paramName = "param") const
-{
-    while (true) {
-        std::string tmp;
-        std::cout << "Input " << paramName << ": ";
-        std::cin >> tmp;
-        for (int i=0; i < tmp.size(); i++)
-            if (tmp[i] > '0' && tmp[i] <= '9')
-            {
-                param = std::stoi(tmp);
-                return;
-            }
-    }
-}
-
 //============================================
 IGame* GameManager::createGame(const std::string& name) const
 {
-    int boardSize, winCondition;
+    unsigned int boardSize, winCondition;
     readInt(boardSize, "board size");
-    readInt(winCondition, "win condition (amt of marks inline)");
+    readInt(winCondition,
+        "win condition (amount of marks lined up)");
     if (winCondition > boardSize) winCondition = boardSize;
 
     IGame* game = nullptr;
@@ -48,18 +33,26 @@ IGame* GameManager::createGame(const std::string& name) const
 
 // additions
 
-// int GameManager::readBoardSize() {
-//     int bSize;
-//     std::cout << "Input board size: ";
-//     std::cin >> bSize;
-//     return bSize;
-// }
-//
-// int GameManager::readWinConditions() {
-//     int marksInline;
-//     std::cout 
-//     << "Input how many marks should be inline for win: ";
-//     std::cin >> marksInline;
-//     return marksInline;
-// }
+void GameManager::readInt(unsigned int& param,
+    std::string paramName = "param") const
+{
+    while (true) {
+        bool okFlag = true;
+        std::string tmp;
+        std::cout << "Input " << paramName << ": ";
+        std::cin >> tmp;
+        for (int i = 0; i < tmp.size(); i++)
+            if (tmp[i] < '0' || tmp[i] > '9')
+            {
+                okFlag = false;
+                break;
+            }
 
+        if (okFlag)
+        {
+            param = std::stoi(tmp);
+            if (param > 0) return;
+        }
+        std::cout << "Wrong input." << std::endl;
+    }
+}
