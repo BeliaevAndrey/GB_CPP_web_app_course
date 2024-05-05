@@ -85,6 +85,8 @@ int  ConsoleGame::calculateVictory()
     // check rows win condition
     for (auto i = ymin; i < ymax; i++)
     {
+        count_x = 0;
+        count_o = 0;
         pos.y = i;  // set position -- row
         for (auto j = xmin; j < xmax; j++)
         {
@@ -121,10 +123,10 @@ int  ConsoleGame::calculateVictory()
 
 
     // check columns win condition
-    count_x = 0;
-    count_o = 0;
     for (auto i = xmin; i < xmax; i++)
     {
+        count_x = 0;
+        count_o = 0;
         pos.x = i;  // set position -- row
         for (auto j = ymin; j < ymax; j++)
         {
