@@ -265,8 +265,16 @@ int  ConsoleGame::exec(/*add parameters*/)
                 moveAccepted = m_board->setMark(move.value(), iplayer == 0 ? IBoard::MARK_X : IBoard::MARK_O);
         }
 
+        // Check draw game 
+        if (m_board->isDraw())
+        {
+            renderBoard();
+            std::cout << "DRAW! Nobody wins" << std::endl;
+            return -1;
+        }
+
         //calculate victory function
-        if (calculateVictory() > 0)
+        else if (calculateVictory() > 0)
         {
             renderBoard();
 

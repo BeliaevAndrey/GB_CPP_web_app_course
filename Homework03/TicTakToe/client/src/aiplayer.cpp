@@ -14,18 +14,20 @@ std::string AIPlayer::name() const
 std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/) const
 {
 
-    std::cout << "player " << name() << " enter your move: " << std::endl;
-    IBoard::PositionType pos;
-    std::cout << "x: ";
-    std::cin >> pos.x;
-    std::cout << "y: ";
-    std::cin >> pos.y;
-
-    return pos;
-}
-
-IBoard::PositionType AIPlayer::calculateMove()
-{
+//     std::cout << "player " << name() << " enter your move: " << std::endl;
+//     IBoard::PositionType pos;
+//     std::cout << "x: ";
+//     std::cin >> pos.x;
+//     std::cout << "y: ";
+//     std::cin >> pos.y;
+//
+//     return pos;
+// }
+//
+// IBoard::PositionType AIPlayer::calculateMove()
+// {
+    
+    
     auto dimensions = m_board->dimension();
     const auto& xmin = dimensions.first.x;
     const auto& ymin = dimensions.first.y;

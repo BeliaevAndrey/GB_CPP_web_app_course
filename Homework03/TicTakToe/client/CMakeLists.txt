@@ -10,6 +10,7 @@ SET(NTTC_SRC
     ${SRC}/simpleboard.cpp
     ${SRC}/consoleplayer.cpp
     ${SRC}/consolegame.cpp
+    ${SRC}/aiplayer.cpp
 )
 
 SET(NTTC_INC
@@ -19,6 +20,7 @@ SET(NTTC_INC
     ${INC}/consoleplayer.h
     ${INC}/gamemanager.h
     ${INC}/simpleboard.h
+    ${INC}/aiplayer.h
 )
 
 add_executable(${PROJECT_NAME} ${NTTC_SRC} ${NTTC_INC})
