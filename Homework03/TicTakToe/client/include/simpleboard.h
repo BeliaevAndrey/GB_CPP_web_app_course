@@ -51,9 +51,28 @@ public:
     {
         if (pos.x < m_size.x && pos.y < m_size.y) {
             m_marks[pos.x][pos.y] = mark;
+            drawCheck();
             return true;
         }
         return false;
+    }
+
+    // Is board filled up
+    virtual void drawCheck() override {
+        int marked = 0;
+        for (int i=0; i < N; i++)
+        {
+            for (int j=0; j < N; j++)
+            {
+                if (m_marks[j][i] != IBoard::MARK_EMPTY)
+                marked++;
+                if (marked == N * N) drawBoard = true;
+            }
+        }
+    }
+
+    virtual bool isDraw() const override {
+        return drawBoard;
     }
 
 private:
@@ -62,6 +81,7 @@ private:
                             static_cast<unsigned int>(N) };
     // Mark m_marks[N][N] = { IBoard::MARK_EMPTY };
     Mark** m_marks = nullptr;
+    bool drawBoard = false;
 };
 
 #endif // SIMPLEBOARD_H

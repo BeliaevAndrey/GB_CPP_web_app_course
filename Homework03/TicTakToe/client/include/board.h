@@ -28,6 +28,10 @@ class IBoard
     virtual std::pair<PositionType, PositionType> dimension() const { return std::pair<PositionType, PositionType>{};}
     virtual Mark mark(const PositionType& pos) const {return MARK_UNKNOWN;}
     virtual bool setMark(const PositionType& pos, const Mark& mark) {return false;}
+
+    // additions
+    virtual void drawCheck() = 0;
+    virtual bool isDraw() const = 0;
 };
 
 #endif // BOARD_H

@@ -18,7 +18,7 @@ public:
     IGame* createGame(const std::string & name) const;
 
     // additions
-    void readInt(unsigned int& , std::string) const;
+    void readInt(unsigned int& , std::string, int) const;
     
 };
 
