@@ -23,11 +23,11 @@ public:
 
     virtual std::string name() const override { return m_name; }
     virtual bool setup(IBoard* board) override;
-    virtual bool waitForPlayers(uint64_t timeout) override;
+    virtual bool waitForPlayers(uint64_t timeoutm) override;
     virtual int  exec(/*add parameters*/) override;
     
     // additions
-    virtual IBoard* board() const override;
+    virtual IBoard board() const override;
     virtual int getMarksInRow() const override;
 
 protected:

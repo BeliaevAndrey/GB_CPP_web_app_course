@@ -308,9 +308,11 @@ int  ConsoleGame::exec(/*add parameters*/)
 
 // additions
 
-IBoard* ConsoleGame::board() const
+IBoard ConsoleGame::board() const
 {
-    return m_board.get();
+    // IBoard* tmp = m_board.get();
+    // return *tmp;
+    return *(m_board.get());
 }
 
 int ConsoleGame::getMarksInRow() const { return marksInRow; }

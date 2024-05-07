@@ -17,7 +17,7 @@ class IGame
     virtual int  exec(/*add parameters*/) = 0;
 
     // additions
-    virtual IBoard* board() const = 0;
+    virtual IBoard board() const = 0;
     virtual int getMarksInRow() const = 0;
 
 

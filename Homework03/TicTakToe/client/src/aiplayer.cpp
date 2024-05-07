@@ -14,21 +14,9 @@ std::string AIPlayer::name() const
 std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/) const
 {
 
-//     std::cout << "player " << name() << " enter your move: " << std::endl;
-//     IBoard::PositionType pos;
-//     std::cout << "x: ";
-//     std::cin >> pos.x;
-//     std::cout << "y: ";
-//     std::cin >> pos.y;
-//
-//     return pos;
-// }
-//
-// IBoard::PositionType AIPlayer::calculateMove()
-// {
-    
-    
-    auto dimensions = m_game->board()->dimension();
+    std::cout << name() << " is making move..." << std::endl;
+    std::cout << "m_game: " << m_game->board().dimension().second.x;
+    auto dimensions = m_game->board().dimension();
     const auto& xmin = dimensions.first.x;
     const auto& ymin = dimensions.first.y;
     const auto& xmax = dimensions.second.x;
@@ -49,7 +37,7 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
         for (int j = xmin; j < xmax; j++)
         {
             pos.x = j;   // col
-            auto mark = m_game->board()->mark(pos);
+            auto mark = m_game->board().mark(pos);
             switch (mark)
             {
             case  IBoard::MARK_X:
@@ -94,7 +82,7 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
         for (auto j = ymin; j < ymax; j++)
         {
             pos.y = j;
-            auto mark = m_game->board()->mark(pos);
+            auto mark = m_game->board().mark(pos);
             switch (mark) {
             case IBoard::MARK_X:
             {
@@ -140,17 +128,17 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
         // todo: add abilities to add mark at rows start-points
         pos.x = i;
         pos.y = i;
-        auto mark = m_game->board()->mark(pos);
+        auto mark = m_game->board().mark(pos);
         switch (mark) {
         case IBoard::MARK_X:
         {
             count_x++;
             count_o = 0;
-            if (count_x == m_game->getMarksInRow() - 1){
-                 pos.x++;
-                 pos.y++;
-                 return pos;
-                 }
+            if (count_x == m_game->getMarksInRow() - 1) {
+                pos.x++;
+                pos.y++;
+                return pos;
+            }
             break;
         }
 
@@ -162,7 +150,7 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
                 pos.x++;
                 pos.y++;
                 return pos;
-                }
+            }
             break;
         }
 
@@ -183,7 +171,7 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
         // todo: add abilities to add mark at rows start-points
         pos.x = xmax - i - 1;
         pos.y = i;
-        auto mark = m_game->board()->mark(pos);
+        auto mark = m_game->board().mark(pos);
         switch (mark) {
         case IBoard::MARK_X:
         {
@@ -204,7 +192,7 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
                 pos.x--;
                 pos.y++;
                 return pos;
-                }
+            }
             break;
         }
 
@@ -218,11 +206,30 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
         default: break;
         }
     }
-
     // In case of empty board place mark to board center position
-
     pos.x = xmax / 2;
     pos.y = ymax / 2;
+    std::cout << "AIPlayer::getMove() "
+        << "pos.x: " << pos.x
+        << " pos.y: " << pos.y
+        << std::endl;
+
+    auto mark = m_game->board().mark(pos);
+
+
+    std::cout << "mark: " << (mark == IBoard::MARK_EMPTY) << std::endl;
+
+    // while (m_game->board().mark(pos) != IBoard::MARK_EMPTY)
+    // {
+    //     if (pos.x > xmin) pos.x--;
+    //     else if (pos.y > ymin) pos.y--;
+    //     std::cout << "AIPlayer::getMove() cycle "
+    //         << "pos.x: " << pos.x
+    //         << "pos.y: " << pos.y
+    //         << std::endl
+    //         << std::endl;
+    // }
+
     return pos;
 
 }
