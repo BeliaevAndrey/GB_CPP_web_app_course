@@ -1,0 +1,7 @@
+/large/data2/Home/Andrew/Documents/geekbrains/CPP_advanced_learncode/Lessons_cmake/Homeworks/Homework03/TicTakToe/build/CMakeFiles/rebuild_cache.dir
+/large/data2/Home/Andrew/Documents/geekbrains/CPP_advanced_learncode/Lessons_cmake/Homeworks/Homework03/TicTakToe/build/CMakeFiles/edit_cache.dir
+/large/data2/Home/Andrew/Documents/geekbrains/CPP_advanced_learncode/Lessons_cmake/Homeworks/Homework03/TicTakToe/build/client/CMakeFiles/edit_cache.dir
+/large/data2/Home/Andrew/Documents/geekbrains/CPP_advanced_learncode/Lessons_cmake/Homeworks/Homework03/TicTakToe/build/client/CMakeFiles/rebuild_cache.dir
+/large/data2/Home/Andrew/Documents/geekbrains/CPP_advanced_learncode/Lessons_cmake/Homeworks/Homework03/TicTakToe/build/client/CMakeFiles/tic_tac_toe_client.dir
+/large/data2/Home/Andrew/Documents/geekbrains/CPP_advanced_learncode/Lessons_cmake/Homeworks/Homework03/TicTakToe/build/server/CMakeFiles/rebuild_cache.dir
+/large/data2/Home/Andrew/Documents/geekbrains/CPP_advanced_learncode/Lessons_cmake/Homeworks/Homework03/TicTakToe/build/server/CMakeFiles/edit_cache.dir

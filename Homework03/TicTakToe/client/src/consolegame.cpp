@@ -43,7 +43,7 @@ bool ConsoleGame::waitForPlayers(uint64_t /*timeout*/)
         {
             m_players.emplace_back(
                 new AIPlayer("Automatic one", this)
-                );
+            );
         }
     }
 
