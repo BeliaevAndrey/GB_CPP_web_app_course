@@ -113,6 +113,7 @@ int  ConsoleGame::calculateVictory()
             {
                 count_x = 0;
                 count_o = 0;
+                break;
             }
 
             default: break;
@@ -153,6 +154,7 @@ int  ConsoleGame::calculateVictory()
             {
                 count_x = 0;
                 count_o = 0;
+                break;
             }
 
             default: break;
