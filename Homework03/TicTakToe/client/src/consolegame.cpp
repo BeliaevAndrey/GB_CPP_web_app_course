@@ -1,15 +1,19 @@
 //--------------------------------
 #include <string>
 #include <iostream>
+#include <memory>
+
 #include "simpleboard.h"
 #include "consoleplayer.h"
+
+#include "aiplayer.h"   // computer player
 
 #include "consolegame.h"
 
 //================================
 ConsoleGame::ConsoleGame(const std::string& name, IBoard* board,
-    int inMarksInRow)
-    :m_name(name), marksInRow(inMarksInRow)
+    int inMarksInRow, int _playersAmt)
+    :m_name(name), marksInRow(inMarksInRow), playersAmt(_playersAmt)
 {
     setup(board);
 }
@@ -25,7 +29,9 @@ bool ConsoleGame::waitForPlayers(uint64_t /*timeout*/)
 {
     while (m_players.size() < 2)
     {
-        std::cout << "Enter name of players " << std::to_string(m_players.size() + 1) << std::endl;
+        std::cout << "Enter name of player "
+            << std::to_string(m_players.size() + 1) << ": "
+            << std::endl;
 
         std::string name;
         std::cin >> name;
@@ -33,6 +39,12 @@ bool ConsoleGame::waitForPlayers(uint64_t /*timeout*/)
             continue;
 
         m_players.emplace_back(new ConsolePlayer(name));
+        if (playersAmt == 1)
+        {
+            m_players.emplace_back(
+                new AIPlayer("Automatic one", this)
+                );
+        }
     }
 
     return true;
@@ -293,4 +305,13 @@ int  ConsoleGame::exec(/*add parameters*/)
 }
 
 //[7]
+
+// additions
+
+IBoard* ConsoleGame::board() const
+{
+    return m_board.get();
+}
+
+int ConsoleGame::getMarksInRow() const { return marksInRow; }
 

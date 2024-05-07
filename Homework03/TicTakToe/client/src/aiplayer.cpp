@@ -28,7 +28,7 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
 // {
     
     
-    auto dimensions = m_board->dimension();
+    auto dimensions = m_game->board()->dimension();
     const auto& xmin = dimensions.first.x;
     const auto& ymin = dimensions.first.y;
     const auto& xmax = dimensions.second.x;
@@ -49,14 +49,14 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
         for (int j = xmin; j < xmax; j++)
         {
             pos.x = j;   // col
-            auto mark = m_board->mark(pos);
+            auto mark = m_game->board()->mark(pos);
             switch (mark)
             {
             case  IBoard::MARK_X:
             {
                 count_x++;
                 count_o = 0;
-                if (count_x == m_marksInRow - 1) {
+                if (count_x == m_game->getMarksInRow() - 1) {
                     ++pos.x;
                     return pos;
                 }
@@ -66,7 +66,7 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
             {
                 count_o++;
                 count_x = 0;
-                if (count_o == m_marksInRow - 1) {
+                if (count_o == m_game->getMarksInRow() - 1) {
                     ++pos.x;
                     return pos;
                 }
@@ -94,13 +94,13 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
         for (auto j = ymin; j < ymax; j++)
         {
             pos.y = j;
-            auto mark = m_board->mark(pos);
+            auto mark = m_game->board()->mark(pos);
             switch (mark) {
             case IBoard::MARK_X:
             {
                 count_x++;
                 count_o = 0;
-                if (count_x == m_marksInRow - 1)
+                if (count_x == m_game->getMarksInRow() - 1)
                 {
                     pos.y++;
                     return pos;
@@ -112,7 +112,7 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
             {
                 count_o++;
                 count_x = 0;
-                if (count_o == m_marksInRow - 1)
+                if (count_o == m_game->getMarksInRow() - 1)
                 {
                     pos.y++;
                     return pos;
@@ -140,13 +140,13 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
         // todo: add abilities to add mark at rows start-points
         pos.x = i;
         pos.y = i;
-        auto mark = m_board->mark(pos);
+        auto mark = m_game->board()->mark(pos);
         switch (mark) {
         case IBoard::MARK_X:
         {
             count_x++;
             count_o = 0;
-            if (count_x == m_marksInRow - 1){
+            if (count_x == m_game->getMarksInRow() - 1){
                  pos.x++;
                  pos.y++;
                  return pos;
@@ -158,7 +158,7 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
         {
             count_o++;
             count_x = 0;
-            if (count_o == m_marksInRow - 1) {
+            if (count_o == m_game->getMarksInRow() - 1) {
                 pos.x++;
                 pos.y++;
                 return pos;
@@ -183,13 +183,13 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
         // todo: add abilities to add mark at rows start-points
         pos.x = xmax - i - 1;
         pos.y = i;
-        auto mark = m_board->mark(pos);
+        auto mark = m_game->board()->mark(pos);
         switch (mark) {
         case IBoard::MARK_X:
         {
             count_x++;
             count_o = 0;
-            if (count_x == m_marksInRow - 1 && pos.x > xmin) {
+            if (count_x == m_game->getMarksInRow() - 1 && pos.x > xmin) {
                 pos.x--;
                 pos.y++;
                 return pos;
@@ -200,7 +200,7 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
         {
             count_o++;
             count_x = 0;
-            if (count_o == m_marksInRow - 1 && pos.x > xmin) {
+            if (count_o == m_game->getMarksInRow() - 1 && pos.x > xmin) {
                 pos.x--;
                 pos.y++;
                 return pos;
