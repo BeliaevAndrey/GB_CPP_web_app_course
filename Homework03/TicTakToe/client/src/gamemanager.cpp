@@ -36,7 +36,6 @@ IGame* GameManager::createGame(const std::string& name) const
             "console_game", board, winCondition, playersAmt
             )); // winCondition added; playerAmt added
     }
-    std::cout << "GM: "<< &game << std::endl; //todo: RMS
     return game;
 }
 

@@ -21,7 +21,8 @@ public:
     virtual std::optional<IBoard::PositionType> getMove(uint64_t /*timeout = -1*/) const override;
 
 private:
-    std::string m_name;     // todo: name may be const (in case user vs AI only; not AI vs AI)
+    std::string m_name; 
+    // (?) name may be const (in case user vs AI only; not AI vs AI)
     IGame* m_game;
 };
 

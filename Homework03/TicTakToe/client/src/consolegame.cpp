@@ -12,8 +12,8 @@
 
 //================================
 ConsoleGame::ConsoleGame(const std::string& name, IBoard* board,
-    int inMarksInRow, int _playersAmt)
-    :m_name(name), marksInRow(inMarksInRow), playersAmt(_playersAmt)
+    int _marksInRow, int _playersAmt)
+    :m_name(name), marksInRow(_marksInRow), playersAmt(_playersAmt)
 {
     setup(board);
 }
@@ -257,9 +257,11 @@ int  ConsoleGame::exec(/*add parameters*/)
 
         auto& player = m_players[iplayer];
         bool moveAccepted = false;
-        while (!moveAccepted)
-        {
 
+        int crutch = 0;
+        while (!moveAccepted && crutch < 30)
+        {
+            crutch++;
             auto move = player->getMove();
 
             if (!move) return -1;
@@ -307,12 +309,9 @@ int  ConsoleGame::exec(/*add parameters*/)
 //[7]
 
 // additions
-
-IBoard ConsoleGame::board() const
+IBoard* ConsoleGame::board() const
 {
-    // IBoard* tmp = m_board.get();
-    // return *tmp;
-    return *(m_board.get());
+    return m_board.get();
 }
 
 int ConsoleGame::getMarksInRow() const { return marksInRow; }

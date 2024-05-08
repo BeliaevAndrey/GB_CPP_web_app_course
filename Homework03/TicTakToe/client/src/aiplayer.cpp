@@ -15,220 +15,47 @@ std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/)
 {
 
     std::cout << name() << " is making move..." << std::endl;
-    std::cout << "m_game: " << m_game->board().dimension().second.x;
-    auto dimensions = m_game->board().dimension();
+
+    auto dimensions = m_game->board()->dimension();
     const auto& xmin = dimensions.first.x;
     const auto& ymin = dimensions.first.y;
     const auto& xmax = dimensions.second.x;
     const auto& ymax = dimensions.second.y;
 
-    int count_x;
-    int count_o;
-    IBoard::PositionType pos;
-    IBoard::PositionType newPos;
+ 
+    int dlt[] = { 1, 0, -1 };
 
-    //  check rows
-    for (int i = ymin; i < ymax; i++)
+    IBoard::PositionType pos, tmpPos;
+
+    for (int y = 0; y < ymax; y++)
     {
-        // todo: add abilities to add mark at rows start-points
-        count_x = 0;
-        count_o = 0;
-        pos.y = i;  // row
-        for (int j = xmin; j < xmax; j++)
+        for (int x = 0; x < xmax; x++)
         {
-            pos.x = j;   // col
-            auto mark = m_game->board().mark(pos);
-            switch (mark)
-            {
-            case  IBoard::MARK_X:
-            {
-                count_x++;
-                count_o = 0;
-                if (count_x == m_game->getMarksInRow() - 1) {
-                    ++pos.x;
-                    return pos;
-                }
-                break;
-            }
-            case IBoard::MARK_O:
-            {
-                count_o++;
-                count_x = 0;
-                if (count_o == m_game->getMarksInRow() - 1) {
-                    ++pos.x;
-                    return pos;
-                }
-                break;
-            }
-            case IBoard::MARK_EMPTY:
-            {
-                count_x = 0;
-                count_o = 0;
-                break;
-            }
+            pos.x = x;
+            pos.y = y;
 
-            default: break;
-            }
-        }
-    }
+            auto mark = m_game->board()->mark(pos);
 
-    // check columns
-    for (auto i = xmin; i < xmax; i++)
-    {
-        // todo: add abilities to add mark at rows start-points
-        count_x = 0;
-        count_o = 0;
-        pos.x = i;
-        for (auto j = ymin; j < ymax; j++)
-        {
-            pos.y = j;
-            auto mark = m_game->board().mark(pos);
-            switch (mark) {
-            case IBoard::MARK_X:
-            {
-                count_x++;
-                count_o = 0;
-                if (count_x == m_game->getMarksInRow() - 1)
+            if (mark == IBoard::MARK_X || mark == IBoard::MARK_O)
+                for (int i = 0; i < 3; i++)
                 {
-                    pos.y++;
-                    return pos;
+                    for (int j = 0; j < 3; j++)
+                    {
+
+                        tmpPos.x = (pos.x + dlt[j] < xmax &&
+                            pos.x + dlt[j] > xmin) ?
+                            pos.x + dlt[j] : pos.x;
+
+                        tmpPos.y = (pos.y + dlt[i] < ymax &&
+                            pos.y + dlt[i] > ymin) ?
+                            pos.y + dlt[i] : pos.y;
+
+                        if (m_game->board()->mark(tmpPos) == IBoard::MARK_EMPTY)
+                            return tmpPos;
+                    }
                 }
-                break;
-            }
-
-            case IBoard::MARK_O:
-            {
-                count_o++;
-                count_x = 0;
-                if (count_o == m_game->getMarksInRow() - 1)
-                {
-                    pos.y++;
-                    return pos;
-                }
-                break;
-            }
-
-            case IBoard::MARK_EMPTY:
-            {
-                count_x = 0;
-                count_o = 0;
-                break;
-            }
-
-            default: break;
-            }
         }
     }
-
-    // check left to right diagonal
-    count_x = 0;
-    count_o = 0;
-    for (int i = xmin; i < xmax; i++)
-    {
-        // todo: add abilities to add mark at rows start-points
-        pos.x = i;
-        pos.y = i;
-        auto mark = m_game->board().mark(pos);
-        switch (mark) {
-        case IBoard::MARK_X:
-        {
-            count_x++;
-            count_o = 0;
-            if (count_x == m_game->getMarksInRow() - 1) {
-                pos.x++;
-                pos.y++;
-                return pos;
-            }
-            break;
-        }
-
-        case IBoard::MARK_O:
-        {
-            count_o++;
-            count_x = 0;
-            if (count_o == m_game->getMarksInRow() - 1) {
-                pos.x++;
-                pos.y++;
-                return pos;
-            }
-            break;
-        }
-
-        case IBoard::MARK_EMPTY:
-        {
-            count_x = 0;
-            count_o = 0;
-            break;
-        }
-
-        default: break;
-        }
-    }
-
-    // check right to left diagonal
-    for (int i = xmin; i < xmax; i++)
-    {
-        // todo: add abilities to add mark at rows start-points
-        pos.x = xmax - i - 1;
-        pos.y = i;
-        auto mark = m_game->board().mark(pos);
-        switch (mark) {
-        case IBoard::MARK_X:
-        {
-            count_x++;
-            count_o = 0;
-            if (count_x == m_game->getMarksInRow() - 1 && pos.x > xmin) {
-                pos.x--;
-                pos.y++;
-                return pos;
-            }
-            break;
-        }
-        case IBoard::MARK_O:
-        {
-            count_o++;
-            count_x = 0;
-            if (count_o == m_game->getMarksInRow() - 1 && pos.x > xmin) {
-                pos.x--;
-                pos.y++;
-                return pos;
-            }
-            break;
-        }
-
-        case IBoard::MARK_EMPTY:
-        {
-            count_x = 0;
-            count_o = 0;
-            break;
-        }
-
-        default: break;
-        }
-    }
-    // In case of empty board place mark to board center position
-    pos.x = xmax / 2;
-    pos.y = ymax / 2;
-    std::cout << "AIPlayer::getMove() "
-        << "pos.x: " << pos.x
-        << " pos.y: " << pos.y
-        << std::endl;
-
-    auto mark = m_game->board().mark(pos);
-
-
-    std::cout << "mark: " << (mark == IBoard::MARK_EMPTY) << std::endl;
-
-    // while (m_game->board().mark(pos) != IBoard::MARK_EMPTY)
-    // {
-    //     if (pos.x > xmin) pos.x--;
-    //     else if (pos.y > ymin) pos.y--;
-    //     std::cout << "AIPlayer::getMove() cycle "
-    //         << "pos.x: " << pos.x
-    //         << "pos.y: " << pos.y
-    //         << std::endl
-    //         << std::endl;
-    // }
 
     return pos;
 

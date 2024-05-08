@@ -27,7 +27,7 @@ public:
     virtual int  exec(/*add parameters*/) override;
     
     // additions
-    virtual IBoard board() const override;
+    virtual IBoard* board() const override;
     virtual int getMarksInRow() const override;
 
 protected:
