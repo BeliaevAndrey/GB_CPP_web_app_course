@@ -4,6 +4,7 @@
 #include <string>
 #include <optional>
 #include <iostream>
+#include <map>
 
 #include "player.h"
 #include "game.h"
@@ -19,6 +20,15 @@ public:
 
     virtual std::string name() const override;
     virtual std::optional<IBoard::PositionType> getMove(uint64_t /*timeout = -1*/) const override;
+
+    // for inner checks
+    IBoard::PositionType checkRows(int, int, int, int) const;
+    
+    IBoard::PositionType checkCols(int, int, int, int) const;
+
+    // IBoard::PositionType checkDiag(int, int, int, int) const;     // ?
+
+    std::pair<int, int> getMaxOfMap(std::map<int, int>) const;
 
 private:
     std::string m_name; 
