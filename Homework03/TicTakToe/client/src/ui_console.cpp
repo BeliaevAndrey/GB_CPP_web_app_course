@@ -72,3 +72,13 @@ void ConsoleUI::renderBoard() const
 }
 
 std::string ConsoleUI::name() const { return game_name; }
+
+void ConsoleUI::menu() const
+{
+    std::cout << "Tic-Tac-Toe Game" << std::endl;
+    std::cout << "================" << std::endl;
+    std::cout << "1. New game\n"
+        << "2. Exit" << std::endl;
+
+
+}

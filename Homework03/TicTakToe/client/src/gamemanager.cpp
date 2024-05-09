@@ -10,6 +10,8 @@
 #include "consoleplayer.h"
 #include "consolegame.h"
 
+#include "uiconsole.h"
+
 //============================================
 IGame* GameManager::createGame(const std::string& name) const
 {
@@ -28,12 +30,16 @@ IGame* GameManager::createGame(const std::string& name) const
     if (winCondition > boardSize) winCondition = boardSize;
 
     IGame* game = nullptr;
+    
     if (name == "console_game")
     {
 
         IBoard* board = new SimpleBoard(boardSize);
+        ICommonUI* c_ui = new ConsoleUI();
         game = static_cast<IGame*>(new ConsoleGame(
-            "console_game", board, winCondition, playersAmt
+            "console_game", board,
+            c_ui,
+            winCondition, playersAmt
             )); // winCondition added; playerAmt added
     }
     return game;

@@ -18,6 +18,16 @@ ConsoleGame::ConsoleGame(const std::string& name, IBoard* board,
     setup(board);
 }
 
+
+ConsoleGame::ConsoleGame(const std::string& name, IBoard* board,
+    ICommonUI* _ui, int _marksInRow, int _playersAmt)
+    :m_name(name), marksInRow(_marksInRow), playersAmt(_playersAmt), m_ui(_ui)
+{
+    std::cout << "New" << std::endl;
+    setup(board);
+}
+
+
 bool ConsoleGame::setup(IBoard* board)
 {
     if (m_players.empty())
@@ -50,35 +60,35 @@ bool ConsoleGame::waitForPlayers(uint64_t /*timeout*/)
     return true;
 }
 
-void ConsoleGame::renderBoard() const
-{
-    auto dimensions = m_board->dimension();
-    const auto& xmin = dimensions.first.x;
-    const auto& ymin = dimensions.first.y;
-    const auto& xmax = dimensions.second.x;
-    const auto& ymax = dimensions.second.y;
-
-    IBoard::PositionType pos;
-    for (auto y = ymin; y < ymax; y++)
-    {
-        pos.y = y;
-        for (auto x = xmin; x < xmax; x++)
-        {
-            pos.x = x;
-            auto mark = m_board->mark(pos);
-            std::string outSymbol = "_";
-            switch (mark)
-            {
-            case IBoard::MARK_O: outSymbol = "O"; break;
-            case IBoard::MARK_X: outSymbol = "X"; break;
-            default: break;
-            }
-            std::cout << "|" << outSymbol << "|";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-}
+// void ConsoleGame::renderBoard() const
+// {
+//     auto dimensions = m_board->dimension();
+//     const auto& xmin = dimensions.first.x;
+//     const auto& ymin = dimensions.first.y;
+//     const auto& xmax = dimensions.second.x;
+//     const auto& ymax = dimensions.second.y;
+// 
+//     IBoard::PositionType pos;
+//     for (auto y = ymin; y < ymax; y++)
+//     {
+//         pos.y = y;
+//         for (auto x = xmin; x < xmax; x++)
+//         {
+//             pos.x = x;
+//             auto mark = m_board->mark(pos);
+//             std::string outSymbol = "_";
+//             switch (mark)
+//             {
+//             case IBoard::MARK_O: outSymbol = "O"; break;
+//             case IBoard::MARK_X: outSymbol = "X"; break;
+//             default: break;
+//             }
+//             std::cout << "|" << outSymbol << "|";
+//         }
+//         std::cout << std::endl;
+//     }
+//     std::cout << std::endl;
+// }
 
 
 int  ConsoleGame::calculateVictory()
@@ -259,15 +269,13 @@ int  ConsoleGame::exec(/*add parameters*/)
     int iplayer = 0;
     while (true)
     {
-        renderBoard();
+        m_ui->renderBoard(this);
 
         auto& player = m_players[iplayer];
         bool moveAccepted = false;
 
-        int crutch = 0;
-        while (!moveAccepted && crutch < 30)
+        while (!moveAccepted)
         {
-            crutch++;
             auto move = player->getMove();
 
             if (!move) return -1;
@@ -288,7 +296,7 @@ int  ConsoleGame::exec(/*add parameters*/)
         // Check draw game 
         if (m_board->isDraw())
         {
-            renderBoard();
+            m_ui->renderBoard(this);
             std::cout << "DRAW! Nobody wins" << std::endl;
             return -1;
         }
@@ -296,7 +304,7 @@ int  ConsoleGame::exec(/*add parameters*/)
         //calculate victory function
         else if (calculateVictory() > 0)
         {
-            renderBoard();
+            m_ui->renderBoard(this);
 
             std::cout << "player "
                 << std::to_string(iplayer + 1) << " -- "
