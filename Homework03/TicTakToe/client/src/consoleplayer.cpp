@@ -2,7 +2,6 @@
 
 //---------------------------------
 #include <optional>
-#include <iostream>
 
 //=================================
 std::string ConsolePlayer::name() const

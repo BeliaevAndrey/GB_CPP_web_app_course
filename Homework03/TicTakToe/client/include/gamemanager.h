@@ -16,7 +16,7 @@ public:
     GameManager& operator==(GameManager&& other) = delete;
     ~GameManager() = default;
 
-    IGame* createGame(const std::string & name) const;
+    IGame* createGame(const std::string & name, ICommonUI* ui) const;
   
 };
 

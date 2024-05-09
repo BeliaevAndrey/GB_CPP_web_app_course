@@ -3,18 +3,18 @@
 
 #include <string>
 #include <optional>
-#include <iostream>
 #include <map>
 
 #include "player.h"
 #include "game.h"
+#include "uicommon.h"
 
 class AIPlayer : public IPlayer
 {
 public:
     AIPlayer() = default;
-    AIPlayer(const std::string& name, IGame* game) :
-        m_name(name), m_game(game)
+    AIPlayer(const std::string& name, IGame* game, ICommonUI* _ui) :
+        m_name(name), m_game(game), m_ui(_ui)
     {};
     ~AIPlayer() = default;
 
@@ -31,6 +31,7 @@ public:
 private:
     std::string m_name; 
     IGame* m_game;
+    ICommonUI* m_ui;
 };
 
 #endif // AIPLAYER_H

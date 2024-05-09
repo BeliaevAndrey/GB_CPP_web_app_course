@@ -2,7 +2,6 @@
 #include "gamemanager.h"
 
 #include <string>
-#include <iostream>
 
 #include "game.h"
 
@@ -10,16 +9,15 @@
 #include "consoleplayer.h"
 #include "consolegame.h"
 
-#include "uiconsole.h"
+// #include "uiconsole.h"
 
 //============================================
-IGame* GameManager::createGame(const std::string& name) const
+IGame* GameManager::createGame(const std::string& name,
+    ICommonUI* c_ui) const
 {
-    ICommonUI* c_ui = new ConsoleUI();
-    
     int playersAmt = 0;
     int boardSize = 0, winCondition = 0;
-    
+
     std::string playersPrompt = " number of players\n"
         "1 -- user vs computer\n"
         "2 -- user vs user\n";

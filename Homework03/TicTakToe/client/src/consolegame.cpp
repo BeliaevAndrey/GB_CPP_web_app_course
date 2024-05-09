@@ -1,6 +1,5 @@
 //--------------------------------
 #include <string>
-#include <iostream>
 #include <memory>
 
 #include "simpleboard.h"
@@ -41,7 +40,7 @@ bool ConsoleGame::waitForPlayers(uint64_t /*timeout*/)
         if (playersAmt == 1)
         {
             m_players.emplace_back(
-                new AIPlayer("Automatic one", this)
+                new AIPlayer("Automatic one", this, m_ui)
             );
         }
     }
@@ -182,41 +181,38 @@ int  ConsoleGame::calculateVictory()
     }
 
     // check right to left diagonal
-    for (int col = xmin; col < xmax; col++)
+    for (int i = xmin; i < xmax; i++)
     {
-        for (int i = xmin; i < xmax; i++)
+        pos.x = xmax - i - 1;
+        pos.y = i;
+        auto mark = m_board->mark(pos);
+        switch (mark) {
+        case IBoard::MARK_X:
         {
-            pos.x = xmax - i - 1;
-            pos.x = pos.x + (pos.x + col < xmax ? col : 0);
-            pos.y = i;
-            auto mark = m_board->mark(pos);
-            switch (mark) {
-            case IBoard::MARK_X:
-            {
-                count_x++;
-                count_o = 0;
-                if (count_x == marksInRow) return true;
-                break;
-            }
-            case IBoard::MARK_O:
-            {
-                count_o++;
-                count_x = 0;
-                if (count_o == marksInRow) return true;
-                break;
-            }
+            count_x++;
+            count_o = 0;
+            if (count_x == marksInRow) return true;
+            break;
+        }
+        case IBoard::MARK_O:
+        {
+            count_o++;
+            count_x = 0;
+            if (count_o == marksInRow) return true;
+            break;
+        }
 
-            case IBoard::MARK_EMPTY:
-            {
-                count_x = 0;
-                count_o = 0;
-                break;
-            }
+        case IBoard::MARK_EMPTY:
+        {
+            count_x = 0;
+            count_o = 0;
+            break;
+        }
 
-            default: break;
-            }
+        default: break;
         }
     }
+
 
 
     return false;

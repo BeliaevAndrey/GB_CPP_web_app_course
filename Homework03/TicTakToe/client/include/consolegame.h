@@ -4,7 +4,7 @@
 //---------------------------------------
 #include <vector>
 #include <utility>
-#include <memory>   // added 2024.04.27
+#include <memory>
 
 #include "player.h"
 #include "board.h"

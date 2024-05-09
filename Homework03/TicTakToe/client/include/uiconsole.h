@@ -39,7 +39,6 @@ void ConsoleUI::readMove(IBoard::PositionType& pos, std::string prompt) const
 
 void ConsoleUI::renderBoard(IGame* m_game) const
 {
-    std::cout << "render  board called" << std::endl;
     auto dimensions = m_game->board()->dimension();
     const auto& xmin = dimensions.first.x;
     const auto& ymin = dimensions.first.y;

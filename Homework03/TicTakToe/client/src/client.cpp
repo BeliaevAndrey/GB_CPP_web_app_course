@@ -1,5 +1,5 @@
 //----------------------------------------------
-#include <iostream>
+
 #include <string>
 #include <vector>
 #include <optional>
@@ -12,24 +12,32 @@
 #include "game.h"
 
 #include "gamemanager.h"
+#include "gamemanager.h"
+#include "uicommon.h"
+#include "uiconsole.h"
+
 //[5]============================================================================
 int main(int argv, char* argc[])
 {
+    ICommonUI* c_ui = new ConsoleUI();
     GameManager gameManager;
+
     while (true) {
+
+        c_ui->printMsg("Tic-Tac-Toe game");
+
         std::unique_ptr<IGame> game;
-        std::cout << "Create local game?" << std::endl;
-        std::cout << "1. Yes" << std::endl;
-        std::cout << "2. No" << std::endl;
 
         int answer = 0;
-        std::cin >> answer;
+        std::string prompt = "Create local game?\n1. Yes\n2. No\n";
+        c_ui->cui_readInt(answer, prompt, 0, 3);
+
         switch (answer)
         {
         case 1:
         {
-            std::cout << "Creating game" << std::endl;
-            game.reset(gameManager.createGame("console_game"));
+            c_ui->printMsg("Creating game");
+            game.reset(gameManager.createGame("console_game", c_ui));
         }
         break;
         case 2:
@@ -39,15 +47,15 @@ int main(int argv, char* argc[])
 
         if (game)
         {
-            std::cout << "Game created" << std::endl;
+            c_ui->printMsg("Game created");
             if (game->waitForPlayers(30000))
                 game->exec();
         }
         else
-            std::cout << "Game NOT created" << std::endl;
+            c_ui->printMsg("Game NOT created");
     }
+
     return 0;
 }
 
 //[6]================================================================
-

@@ -3,7 +3,6 @@
 
 //---------------------------------
 #include <optional>
-#include <iostream>
 
 //=================================
 std::string AIPlayer::name() const
@@ -13,8 +12,7 @@ std::string AIPlayer::name() const
 
 std::optional<IBoard::PositionType> AIPlayer::getMove(uint64_t /*timeout = -1*/) const
 {
-
-    std::cout << name() << " is making move..." << std::endl;
+    m_ui->printMsg(name() + " is making move...");
 
     auto dimensions = m_game->board()->dimension();
     const auto& xmin = dimensions.first.x;
