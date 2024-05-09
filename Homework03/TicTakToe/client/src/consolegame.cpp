@@ -11,12 +11,12 @@
 #include "consolegame.h"
 
 //================================
-ConsoleGame::ConsoleGame(const std::string& name, IBoard* board,
-    int _marksInRow, int _playersAmt)
-    :m_name(name), marksInRow(_marksInRow), playersAmt(_playersAmt)
-{
-    setup(board);
-}
+// ConsoleGame::ConsoleGame(const std::string& name, IBoard* board,
+//     int _marksInRow, int _playersAmt)
+//     :m_name(name), marksInRow(_marksInRow), playersAmt(_playersAmt)
+// {
+//     setup(board);
+// }
 
 
 ConsoleGame::ConsoleGame(const std::string& name, IBoard* board,
@@ -39,12 +39,9 @@ bool ConsoleGame::waitForPlayers(uint64_t /*timeout*/)
 {
     while (m_players.size() < 2)
     {
-        std::cout << "Enter name of player "
-            << std::to_string(m_players.size() + 1) << ": "
-            << std::endl;
-
         std::string name;
-        std::cin >> name;
+        m_ui->readString(name, "name of player");
+
         if (name.empty())
             continue;
 
@@ -59,6 +56,31 @@ bool ConsoleGame::waitForPlayers(uint64_t /*timeout*/)
 
     return true;
 }
+
+// bool ConsoleGame::waitForPlayers(uint64_t /*timeout*/)
+// {
+//     while (m_players.size() < 2)
+//     {
+//         std::cout << "Enter name of player "
+//             << std::to_string(m_players.size() + 1) << ": "
+//             << std::endl;
+// 
+//         std::string name;
+//         std::cin >> name;
+//         if (name.empty())
+//             continue;
+// 
+//         m_players.emplace_back(new ConsolePlayer(name));
+//         if (playersAmt == 1)
+//         {
+//             m_players.emplace_back(
+//                 new AIPlayer("Automatic one", this)
+//             );
+//         }
+//     }
+// 
+//     return true;
+// }
 
 // void ConsoleGame::renderBoard() const
 // {

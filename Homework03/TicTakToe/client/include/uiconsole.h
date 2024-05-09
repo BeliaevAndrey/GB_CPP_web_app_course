@@ -78,7 +78,7 @@ void ConsoleUI::cui_readInt(int& param, std::string prompt,
         {
             param = std::stoi(tmp);
             if (param > lowerLim && param < uppperLim) return;
-            else if (param > 0) return;
+            else if (param > lowerLim) return;
         }
         std::cout << "Wrong input." << std::endl;
     }
