@@ -5,14 +5,13 @@
 #include <optional>
 #include <utility>
 #include <vector>
-#include <memory>   // added 2024.04.27
+#include <memory> 
 
 #include "board.h"
 #include "player.h"
 #include "game.h"
 
 #include "gamemanager.h"
-
 //[5]============================================================================
 int main(int argv, char* argc[])
 {

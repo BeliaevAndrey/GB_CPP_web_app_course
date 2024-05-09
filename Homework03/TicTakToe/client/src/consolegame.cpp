@@ -11,19 +11,10 @@
 #include "consolegame.h"
 
 //================================
-// ConsoleGame::ConsoleGame(const std::string& name, IBoard* board,
-//     int _marksInRow, int _playersAmt)
-//     :m_name(name), marksInRow(_marksInRow), playersAmt(_playersAmt)
-// {
-//     setup(board);
-// }
-
-
 ConsoleGame::ConsoleGame(const std::string& name, IBoard* board,
     ICommonUI* _ui, int _marksInRow, int _playersAmt)
     :m_name(name), marksInRow(_marksInRow), playersAmt(_playersAmt), m_ui(_ui)
 {
-    std::cout << "New" << std::endl;
     setup(board);
 }
 
@@ -45,7 +36,8 @@ bool ConsoleGame::waitForPlayers(uint64_t /*timeout*/)
         if (name.empty())
             continue;
 
-        m_players.emplace_back(new ConsolePlayer(name));
+        m_players.emplace_back(new ConsolePlayer(name, m_ui));
+
         if (playersAmt == 1)
         {
             m_players.emplace_back(
@@ -56,61 +48,6 @@ bool ConsoleGame::waitForPlayers(uint64_t /*timeout*/)
 
     return true;
 }
-
-// bool ConsoleGame::waitForPlayers(uint64_t /*timeout*/)
-// {
-//     while (m_players.size() < 2)
-//     {
-//         std::cout << "Enter name of player "
-//             << std::to_string(m_players.size() + 1) << ": "
-//             << std::endl;
-// 
-//         std::string name;
-//         std::cin >> name;
-//         if (name.empty())
-//             continue;
-// 
-//         m_players.emplace_back(new ConsolePlayer(name));
-//         if (playersAmt == 1)
-//         {
-//             m_players.emplace_back(
-//                 new AIPlayer("Automatic one", this)
-//             );
-//         }
-//     }
-// 
-//     return true;
-// }
-
-// void ConsoleGame::renderBoard() const
-// {
-//     auto dimensions = m_board->dimension();
-//     const auto& xmin = dimensions.first.x;
-//     const auto& ymin = dimensions.first.y;
-//     const auto& xmax = dimensions.second.x;
-//     const auto& ymax = dimensions.second.y;
-// 
-//     IBoard::PositionType pos;
-//     for (auto y = ymin; y < ymax; y++)
-//     {
-//         pos.y = y;
-//         for (auto x = xmin; x < xmax; x++)
-//         {
-//             pos.x = x;
-//             auto mark = m_board->mark(pos);
-//             std::string outSymbol = "_";
-//             switch (mark)
-//             {
-//             case IBoard::MARK_O: outSymbol = "O"; break;
-//             case IBoard::MARK_X: outSymbol = "X"; break;
-//             default: break;
-//             }
-//             std::cout << "|" << outSymbol << "|";
-//         }
-//         std::cout << std::endl;
-//     }
-//     std::cout << std::endl;
-// }
 
 
 int  ConsoleGame::calculateVictory()
@@ -319,7 +256,8 @@ int  ConsoleGame::exec(/*add parameters*/)
         if (m_board->isDraw())
         {
             m_ui->renderBoard(this);
-            std::cout << "DRAW! Nobody wins" << std::endl;
+            m_ui->printMsg("DRAW! Nobody wins");
+
             return -1;
         }
 
@@ -328,11 +266,12 @@ int  ConsoleGame::exec(/*add parameters*/)
         {
             m_ui->renderBoard(this);
 
-            std::cout << "player "
-                << std::to_string(iplayer + 1) << " -- "
-                << m_players[iplayer]->name()
-                << " -- wins! Congratulations!"
-                << std::endl;
+            std::string congratulations = "player " +
+                std::to_string(iplayer + 1) + " " +
+                m_players[iplayer]->name() +
+                " -- wins! Congratulations!";
+
+            m_ui->printMsg(congratulations);
 
             return iplayer;
         }

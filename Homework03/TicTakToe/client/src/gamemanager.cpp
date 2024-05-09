@@ -25,7 +25,7 @@ IGame* GameManager::createGame(const std::string& name) const
         "2 -- user vs user\n";
 
     c_ui->cui_readInt(playersAmt, playersPrompt, 0, 3);
-    c_ui->cui_readInt(boardSize, "board size (3..N)", 3, -1);
+    c_ui->cui_readInt(boardSize, "board size (3..N)", 2, -1);
     c_ui->cui_readInt(winCondition,
         "win condition (amount of marks lined up; 3..N)", 2, -1);
 
@@ -46,32 +46,3 @@ IGame* GameManager::createGame(const std::string& name) const
 
     return game;
 }
-
-
-
-// additions
-
-// void GameManager::readInt(unsigned int& param,
-//     std::string paramName = "param", int limit = 0) const
-// {
-//     while (true) {
-//         bool okFlag = true;
-//         std::string tmp;
-//         std::cout << "Input " << paramName << ": ";
-//         std::cin >> tmp;
-//         for (int i = 0; i < tmp.size(); i++)
-//             if (tmp[i] < '0' || tmp[i] > '9')
-//             {
-//                 okFlag = false;
-//                 break;
-//             }
-// 
-//         if (okFlag)
-//         {
-//             param = std::stoi(tmp);
-//             if (limit && param > 0 && param <= limit) return;
-//             else if (param > 0) return;
-//         }
-//         std::cout << "Wrong input." << std::endl;
-//     }
-// }

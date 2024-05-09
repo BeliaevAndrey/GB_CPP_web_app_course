@@ -8,12 +8,19 @@
 #include "board.h"
 #include "player.h"
 
+#include "uicommon.h"
+
 //==================================
 class ConsolePlayer : public IPlayer
 {
     public:
         ConsolePlayer() = default;
+        
+        ConsolePlayer(const std::string& name, 
+        ICommonUI* _ui) : m_name(name), m_ui(_ui) {}
+        
         ConsolePlayer(const std::string& name) : m_name(name) {}
+        
         ~ConsolePlayer() = default;
 
         virtual std::string name() const override;
@@ -21,6 +28,8 @@ class ConsolePlayer : public IPlayer
 
     private:
         std::string m_name;
+        ICommonUI* m_ui;
+
 };
 
 #endif // CONSOLEPLAYER_H

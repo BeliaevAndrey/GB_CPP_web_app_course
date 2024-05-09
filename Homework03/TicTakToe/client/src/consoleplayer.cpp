@@ -10,13 +10,9 @@ std::string ConsolePlayer::name() const
 
 std::optional<IBoard::PositionType> ConsolePlayer::getMove(uint64_t /*timeout = -1*/) const
 {
-
-    std::cout <<"player "<<name()<< " enter your move: "<<std::endl;
     IBoard::PositionType pos;
-    std::cout <<"x: ";
-    std::cin>>pos.x;
-    std::cout <<"y: ";
-    std::cin>>pos.y;
+    std::string prompt = "player, " + name() + ", enter your move:";
+    m_ui->readMove(pos, prompt);
 
     return pos;
 }

@@ -1,6 +1,7 @@
 #ifndef UICONSOLE_H
 #define UICONSOLE_H
 //====================
+// External console UI
 
 #include <iostream>
 
@@ -22,11 +23,19 @@ public:
     virtual void cui_readInt(int&, std::string, int, int) const override;
     virtual void readString(std::string&, std::string) const override;
     virtual void printMsg(std::string) const override;
-
-
-
+    virtual void readMove(IBoard::PositionType& pos, std::string prompt) const override;
 };
+// ==============================
 
+void ConsoleUI::readMove(IBoard::PositionType& pos, std::string prompt) const
+{
+    std::cout << prompt << std::endl;
+    int pos_x,  pos_y;
+    cui_readInt(pos_x, "x", -1, -1);
+    cui_readInt(pos_y, "y", -1, -1);
+    pos.x = pos_x;
+    pos.y = pos_y;
+}
 
 void ConsoleUI::renderBoard(IGame* m_game) const
 {
@@ -87,7 +96,8 @@ void ConsoleUI::cui_readInt(int& param, std::string prompt,
 void ConsoleUI::readString(std::string& line, std::string prompt) const
 {
     std::cout << "Input " << prompt << ": ";
-    std::getline(std::cin, line);
+    // std::getline(std::cin, line);
+    std::cin >> line;
 }
 
 void ConsoleUI::printMsg(std::string message) const

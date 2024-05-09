@@ -17,10 +17,7 @@ public:
     ~GameManager() = default;
 
     IGame* createGame(const std::string & name) const;
-
-    // additions
-    void readInt(unsigned int& , std::string, int) const;
-    
+  
 };
 
 #endif // GAMEMANAGER_H

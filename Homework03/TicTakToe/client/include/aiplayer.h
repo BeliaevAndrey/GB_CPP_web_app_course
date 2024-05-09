@@ -26,13 +26,10 @@ public:
     
     IBoard::PositionType checkCols(int, int, int, int) const;
 
-    // IBoard::PositionType checkDiag(int, int, int, int) const;     // ?
-
     std::pair<int, int> getMaxOfMap(std::map<int, int>) const;
 
 private:
     std::string m_name; 
-    // (?) name may be const (in case user vs AI only; not AI vs AI)
     IGame* m_game;
 };
 

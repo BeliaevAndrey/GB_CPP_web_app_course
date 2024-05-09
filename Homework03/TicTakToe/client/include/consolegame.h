@@ -17,11 +17,7 @@ class ConsoleGame : public IGame
 {
 public:
     ConsoleGame() = default;
-    ConsoleGame(const std::string& name,
-        IBoard* board,
-        int marksInRow,
-        int _playersAmt);
-
+ 
     ConsoleGame(const std::string& name,
         IBoard* board,
         ICommonUI* _ui,
