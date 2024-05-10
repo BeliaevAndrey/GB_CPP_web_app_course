@@ -309,11 +309,6 @@ int  ConsoleGame::calculateVictory()
     }
 
 
-
-
-   
-
-
     return false;
 }
 
