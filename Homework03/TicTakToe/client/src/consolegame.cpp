@@ -63,14 +63,14 @@ int  ConsoleGame::calculateVictory()
     IBoard::PositionType pos; // position variable
 
     // check rows win condition
-    for (auto i = ymin; i < ymax; i++)
+    for (auto row = ymin; row < ymax; row++)
     {
         count_x = 0;
         count_o = 0;
-        pos.y = i;  // set position -- row
-        for (auto j = xmin; j < xmax; j++)
+        pos.y = row;  // set position -- row
+        for (auto col = xmin; col < xmax; col++)
         {
-            pos.x = j;      // set position -- column
+            pos.x = col;      // set position -- column
             auto mark = m_board->mark(pos); // get a mark from position
             switch (mark) {
             case IBoard::MARK_X:
@@ -104,14 +104,14 @@ int  ConsoleGame::calculateVictory()
 
 
     // check columns win condition
-    for (auto i = xmin; i < xmax; i++)
+    for (auto col = xmin; col < xmax; col++)
     {
         count_x = 0;
         count_o = 0;
-        pos.x = i;  // set position -- row
-        for (auto j = ymin; j < ymax; j++)
+        pos.x = col;  // set position -- column
+        for (auto row = ymin; row < ymax; row++)
         {
-            pos.y = j;      // set position -- column
+            pos.y = row;      // set position -- row
             auto mark = m_board->mark(pos); // get a mark from position
             switch (mark) {
             case IBoard::MARK_X:
@@ -142,14 +142,16 @@ int  ConsoleGame::calculateVictory()
         }
     }
 
-    // check left to right diagonal
-    for (int col = xmin; col < xmax; col++) {
+  
+    // LTR diagonals higher than main diagonal
+    for (int row = ymin; row < ymax - marksInRow; row++)
+    {
         count_x = 0;
         count_o = 0;
-        for (int i = xmin; i < xmax; i++)
+        for (int col = row; col < xmax; col++)
         {
-            pos.x = i + (i + col < xmax ? col : 0);
-            pos.y = i;
+            pos.x = col - row;
+            pos.y = col;
             auto mark = m_board->mark(pos);
             switch (mark) {
             case IBoard::MARK_X:
@@ -159,7 +161,6 @@ int  ConsoleGame::calculateVictory()
                 if (count_x == marksInRow) return true;
                 break;
             }
-
             case IBoard::MARK_O:
             {
                 count_o++;
@@ -180,39 +181,137 @@ int  ConsoleGame::calculateVictory()
         }
     }
 
-    // check right to left diagonal
-    for (int i = xmin; i < xmax; i++)
+    // LTR diagonals lower than main diagonal
+
+    for (int row = ymin + 1; row < ymax; row++)
     {
-        pos.x = xmax - i - 1;
-        pos.y = i;
-        auto mark = m_board->mark(pos);
-        switch (mark) {
-        case IBoard::MARK_X:
+        count_x = 0;
+        count_o = 0;
+        for (int col = xmin; col < xmax - row; col++)
         {
-            count_x++;
-            count_o = 0;
-            if (count_x == marksInRow) return true;
-            break;
-        }
-        case IBoard::MARK_O:
-        {
-            count_o++;
-            count_x = 0;
-            if (count_o == marksInRow) return true;
-            break;
-        }
+            pos.x = row + col;
+            pos.y = col;
+            auto mark = m_board->mark(pos);
+            switch (mark) {
+            case IBoard::MARK_X:
+            {
+                count_x++;
+                count_o = 0;
+                if (count_x == marksInRow) return true;
+                break;
+            }
+            case IBoard::MARK_O:
+            {
+                count_o++;
+                count_x = 0;
+                if (count_o == marksInRow) return true;
+                break;
+            }
 
-        case IBoard::MARK_EMPTY:
-        {
-            count_x = 0;
-            count_o = 0;
-            break;
-        }
+            case IBoard::MARK_EMPTY:
+            {
+                count_x = 0;
+                count_o = 0;
+                break;
+            }
 
-        default: break;
+            default: break;
+            }
+
         }
     }
 
+    // RTL diagonals lower than main diagonal
+
+    for (int row = ymin; row < ymax; row++)
+    {
+        count_x = 0;
+        count_o = 0;
+        int  i = 0;
+
+        for (int col = xmax - 1; col > row - 1; col--)
+        {
+            pos.x = row + i;
+            i++;
+            pos.y = col;
+            auto mark = m_board->mark(pos);
+            switch (mark) {
+            case IBoard::MARK_X:
+            {
+                count_x++;
+                count_o = 0;
+                if (count_x == marksInRow) return true;
+                break;
+            }
+            case IBoard::MARK_O:
+            {
+                count_o++;
+                count_x = 0;
+                if (count_o == marksInRow) return true;
+                break;
+            }
+
+            case IBoard::MARK_EMPTY:
+            {
+                count_x = 0;
+                count_o = 0;
+                break;
+            }
+
+            default: break;
+            }
+
+            // i++;
+        }
+    }
+
+    // RTL diagonals higher than main diagonal
+    for (int row = ymax - 2; row > ymin - 1; row--)
+    {
+        count_x = 0;
+        count_o = 0;
+        int i = 0;
+
+        for (int col = xmin; col < row + 1; col++)
+        {
+            pos.x = row - i;
+            i++;
+            pos.y = col;
+
+            auto mark = m_board->mark(pos);
+            switch (mark) {
+            case IBoard::MARK_X:
+            {
+                count_x++;
+                count_o = 0;
+                if (count_x == marksInRow) return true;
+                break;
+            }
+            case IBoard::MARK_O:
+            {
+                count_o++;
+                count_x = 0;
+                if (count_o == marksInRow) return true;
+                break;
+            }
+
+            case IBoard::MARK_EMPTY:
+            {
+                count_x = 0;
+                count_o = 0;
+                break;
+            }
+
+            default: break;
+            }
+
+        }
+    }
+
+
+
+
+   
 
 
     return false;
