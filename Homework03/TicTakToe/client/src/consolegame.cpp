@@ -63,86 +63,37 @@ int  ConsoleGame::calculateVictory()
     IBoard::PositionType pos; // position variable
 
     // check rows win condition
-    for (auto row = ymin; row < ymax; row++)
+    for (auto i = ymin; i < ymax; i++)
     {
         count_x = 0;
         count_o = 0;
-        pos.y = row;  // set position -- row
-        for (auto col = xmin; col < xmax; col++)
+        pos.y = i;  // set position -- row
+        for (auto j = xmin; j < xmax; j++)
         {
-            pos.x = col;      // set position -- column
-            auto mark = m_board->mark(pos); // get a mark from position
-            switch (mark) {
-            case IBoard::MARK_X:
-            {
-                count_x++;
-                count_o = 0;
-                if (count_x == marksInRow) return true;
-                break;
-            }
+            pos.x = j;      // set position -- column
 
-            case IBoard::MARK_O:
-            {
-                count_o++;
-                count_x = 0;
-                if (count_o == marksInRow) return true;
-                break;
-            }
-
-            case IBoard::MARK_EMPTY:
-            {
-                count_x = 0;
-                count_o = 0;
-                break;
-            }
-
-            default: break;
-            }
+            checker(pos, count_x, count_o);
+            if (count_x == marksInRow || count_o == marksInRow) return true;
         }
 
     }
 
 
     // check columns win condition
-    for (auto col = xmin; col < xmax; col++)
+    for (auto i = xmin; i < xmax; i++)
     {
         count_x = 0;
         count_o = 0;
-        pos.x = col;  // set position -- column
-        for (auto row = ymin; row < ymax; row++)
+        pos.x = i;  // set position -- row
+        for (auto j = ymin; j < ymax; j++)
         {
-            pos.y = row;      // set position -- row
-            auto mark = m_board->mark(pos); // get a mark from position
-            switch (mark) {
-            case IBoard::MARK_X:
-            {
-                count_x++;
-                count_o = 0;
-                if (count_x == marksInRow) return true;
-                break;
-            }
+            pos.y = j;      // set position -- column
 
-            case IBoard::MARK_O:
-            {
-                count_o++;
-                count_x = 0;
-                if (count_o == marksInRow) return true;
-                break;
-            }
-
-            case IBoard::MARK_EMPTY:
-            {
-                count_x = 0;
-                count_o = 0;
-                break;
-            }
-
-            default: break;
-            }
+            checker(pos, count_x, count_o);
+            if (count_x == marksInRow || count_o == marksInRow) return true;
         }
     }
 
-  
     // LTR diagonals higher than main diagonal
     for (int row = ymin; row < ymax - marksInRow; row++)
     {
@@ -152,32 +103,9 @@ int  ConsoleGame::calculateVictory()
         {
             pos.x = col - row;
             pos.y = col;
-            auto mark = m_board->mark(pos);
-            switch (mark) {
-            case IBoard::MARK_X:
-            {
-                count_x++;
-                count_o = 0;
-                if (count_x == marksInRow) return true;
-                break;
-            }
-            case IBoard::MARK_O:
-            {
-                count_o++;
-                count_x = 0;
-                if (count_o == marksInRow) return true;
-                break;
-            }
 
-            case IBoard::MARK_EMPTY:
-            {
-                count_x = 0;
-                count_o = 0;
-                break;
-            }
-
-            default: break;
-            }
+            checker(pos, count_x, count_o);
+            if (count_x == marksInRow || count_o == marksInRow) return true;
         }
     }
 
@@ -191,33 +119,9 @@ int  ConsoleGame::calculateVictory()
         {
             pos.x = row + col;
             pos.y = col;
-            auto mark = m_board->mark(pos);
-            switch (mark) {
-            case IBoard::MARK_X:
-            {
-                count_x++;
-                count_o = 0;
-                if (count_x == marksInRow) return true;
-                break;
-            }
-            case IBoard::MARK_O:
-            {
-                count_o++;
-                count_x = 0;
-                if (count_o == marksInRow) return true;
-                break;
-            }
 
-            case IBoard::MARK_EMPTY:
-            {
-                count_x = 0;
-                count_o = 0;
-                break;
-            }
-
-            default: break;
-            }
-
+            checker(pos, count_x, count_o);
+            if (count_x == marksInRow || count_o == marksInRow) return true;
         }
     }
 
@@ -234,34 +138,9 @@ int  ConsoleGame::calculateVictory()
             pos.x = row + i;
             i++;
             pos.y = col;
-            auto mark = m_board->mark(pos);
-            switch (mark) {
-            case IBoard::MARK_X:
-            {
-                count_x++;
-                count_o = 0;
-                if (count_x == marksInRow) return true;
-                break;
-            }
-            case IBoard::MARK_O:
-            {
-                count_o++;
-                count_x = 0;
-                if (count_o == marksInRow) return true;
-                break;
-            }
 
-            case IBoard::MARK_EMPTY:
-            {
-                count_x = 0;
-                count_o = 0;
-                break;
-            }
-
-            default: break;
-            }
-
-            // i++;
+            checker(pos, count_x, count_o);
+            if (count_x == marksInRow || count_o == marksInRow) return true;
         }
     }
 
@@ -278,20 +157,29 @@ int  ConsoleGame::calculateVictory()
             i++;
             pos.y = col;
 
-            auto mark = m_board->mark(pos);
+            checker(pos, count_x, count_o);
+            if (count_x == marksInRow || count_o == marksInRow) return true;
+        }
+    }
+
+    return false;
+}
+
+void ConsoleGame::checker(IBoard::PositionType pos, int& count_x, int& count_o)
+{
+    auto mark = m_board->mark(pos);
+
             switch (mark) {
             case IBoard::MARK_X:
             {
                 count_x++;
                 count_o = 0;
-                if (count_x == marksInRow) return true;
                 break;
             }
             case IBoard::MARK_O:
             {
                 count_o++;
                 count_x = 0;
-                if (count_o == marksInRow) return true;
                 break;
             }
 
@@ -304,12 +192,6 @@ int  ConsoleGame::calculateVictory()
 
             default: break;
             }
-
-        }
-    }
-
-
-    return false;
 }
 
 

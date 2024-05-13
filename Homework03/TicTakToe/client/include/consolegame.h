@@ -38,6 +38,7 @@ public:
 protected:
     // void renderBoard() const; // out to UI
     int  calculateVictory();
+    void  checker(IBoard::PositionType, int& , int& );
 
 private:
     std::string m_name;
