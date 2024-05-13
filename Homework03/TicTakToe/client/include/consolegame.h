@@ -36,7 +36,7 @@ public:
     virtual int getMarksInRow() const override;
 
 protected:
-    // void renderBoard() const; // out to UI
+    // void renderBoard() const; // moved to UI
     int  calculateVictory();
     void  checker(IBoard::PositionType, int& , int& );
 

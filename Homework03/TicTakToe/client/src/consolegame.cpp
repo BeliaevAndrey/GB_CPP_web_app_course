@@ -262,4 +262,3 @@ IBoard* ConsoleGame::board() const
 }
 
 int ConsoleGame::getMarksInRow() const { return marksInRow; }
-
