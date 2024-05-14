@@ -3,6 +3,7 @@
 
 //--------------------------------
 #include <string>
+#include <stdint.h> // added for support uint64_t under windows
 
 #include "board.h"
 
