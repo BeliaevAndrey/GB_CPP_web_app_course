@@ -124,41 +124,53 @@ int  ConsoleGame::calculateVictory()
             if (count_x == marksInRow || count_o == marksInRow) return true;
         }
     }
+   
+    // RTL diagonals higher than side diagonal
 
-    // RTL diagonals lower than main diagonal
-
-    for (int row = ymin; row < ymax; row++)
+    for (int y = ymax - 1; y > ymin; y--)
     {
         count_x = 0;
         count_o = 0;
-        int  i = 0;
 
-        for (int col = xmax - 1; col > row - 1; col--)
+        int delta = 0;
+
+        for (int k = xmin; k < xmax; k++)
         {
-            pos.x = row + i;
-            i++;
-            pos.y = col;
+            pos.y = y - delta;
+            pos.x = delta;
+            ++delta;
 
             checker(pos, count_x, count_o);
-            if (count_x == marksInRow || count_o == marksInRow) return true;
+            if (count_x == marksInRow || count_o == marksInRow)
+            {
+                return true;
+            }
+
+            if (y - delta <= ymin)
+                break;
         }
     }
+    
+    // RTL diagonals lower than side diagonal
 
-    // RTL diagonals higher than main diagonal
-    for (int row = ymax - 2; row > ymin - 1; row--)
+    for (int x = xmin; x < xmax; x++)
     {
         count_x = 0;
         count_o = 0;
-        int i = 0;
 
-        for (int col = xmin; col < row + 1; col++)
+        int delta = 0;
+
+        for (int k = xmin; k < xmax - 1, x + k < xmax; k++)
         {
-            pos.x = row - i;
-            i++;
-            pos.y = col;
-
+            pos.y = ymax - 1 - delta;
+            pos.x = x + k;
+            ++delta;
             checker(pos, count_x, count_o);
-            if (count_x == marksInRow || count_o == marksInRow) return true;
+            if (count_x == marksInRow || count_o == marksInRow)
+            {
+                return true;
+            }
+
         }
     }
 
